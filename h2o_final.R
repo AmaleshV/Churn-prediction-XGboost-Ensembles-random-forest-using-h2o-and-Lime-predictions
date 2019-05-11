@@ -1,23 +1,53 @@
-# The following two commands remove any previously installed H2O packages for R.
-if ("package:h2o" %in% search()) { detach("package:h2o", unload=TRUE) }
-if ("h2o" %in% rownames(installed.packages())) { remove.packages("h2o") }
+rm(list=ls())
 
-# Next, we download packages that H2O depends on.
-pkgs <- c("RCurl","jsonlite")
-for (pkg in pkgs) {
-  if (! (pkg %in% rownames(installed.packages()))) { install.packages(pkg) }
+## Leave your path here to feed in setwd
+path_amalesh <- paste0("D:/ALL/Study/KUL/Stats/Amalesh/",
+                       "3rd sem/Advanced analyics for business")
+path_marc <- paste0("d:/MarcandreC/Desktop/ass2_h2o")
+
+setwd(path_marc)
+
+## The following functions loads the
+## dependencies automatically
+source("./assigment2_functions_macode.r")
+source("./assigment2_macode.r")
+
+## TRUE if you want to install the h20 packages etc.
+debug_install <- FALSE
+
+if(debug_install) {
+## The following two commands remove any previously installed H2O
+## packages for R.
+    if ("package:h2o" %in% search()) {
+        detach("package:h2o", unload=TRUE)
+    }
+    if ("h2o" %in% rownames(installed.packages())) {
+        remove.packages("h2o")
+    }
+
+## Next, we download packages that H2O depends on.
+    pkgs <- c("RCurl","jsonlite")
+    for (pkg in pkgs) {
+        if (!(pkg %in% rownames(installed.packages()))) {
+            install.packages(pkg)
+        }
+    }
+## Now we download, install and initialize the H2O package for R.
+    install.packages("h2o", type="source",
+                     repos=paste0("http://h2o-release.s3.amazonaws.com/",
+                                  "h2o/rel-yates/3/R"))
 }
 
-# Now we download, install and initialize the H2O package for R.
-install.packages("h2o", type="source", repos="http://h2o-release.s3.amazonaws.com/h2o/rel-yates/3/R")
-
+## Main meat
+## orig.dat must be used for training,
+## otherwise validation set are infected
+## with rows from training set.
 library(h2o)
 h2o.init()
-setwd("D:/ALL/Study/KUL/Stats/Amalesh/3rd sem/Advanced analyics for business")
-source("./assigment2_functions_macode.r")
-train.dat <- read_rds('./train_ma.rds')
-test.dat <- read_rds('./test_ma.rds')
-churn<-read_rds('Y_train.rds')
+
+train.dat <- orig.dat
+test.dat <- test.dat
+churn <- Y.orig
 train.dat1<- cbind(train.dat,churn)
 churn<-read_rds('Y_test.rds')
 test.dat1<- cbind(test.dat,churn)

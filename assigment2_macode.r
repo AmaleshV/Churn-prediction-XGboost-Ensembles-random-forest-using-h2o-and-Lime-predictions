@@ -1,4 +1,6 @@
-rm(list=ls())
+## This file is now treated as a dependency
+## to h2o_final.r
+## Paths must be set in that main file. 
 
 library(tidyverse)
 library(lubridate)
@@ -8,7 +10,6 @@ library(caret)
 library(ROSE)
 library(mice)
 
-setwd("D:/ALL/Study/KUL/Stats/Amalesh/3rd sem/Advanced analyics for business")
 source("./assigment2_functions_macode.r")
 
 telco.dat <- read.csv("telco_train.csv")
