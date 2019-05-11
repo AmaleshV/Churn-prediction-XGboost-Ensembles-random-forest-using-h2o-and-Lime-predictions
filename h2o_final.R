@@ -54,7 +54,7 @@ h2o.varimp(metalearner)
 h2o.varimp_plot(metalearner)
 #gbm
 gbm <- h2o.getModel(grep("GBM", model_ids, value = TRUE)[1])
-#summary of best ensamble
+#summary of best gbm
 gbm
 #knowing parameters used
 gbm@allparameters
